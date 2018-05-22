@@ -1,7 +1,6 @@
 const fs = require('fs')
     , ini = require('ini')
     , db = require('sqlite')
-    , puppeteer = require('puppeteer')
     , cheerio = require('cheerio')
     , axios = require('axios')
 
@@ -115,31 +114,6 @@ const parser = {
         }
 
         return selector;
-    },
-
-    // get html from url, with puppeteer
-    async getHtmlByUrlWithSelector(url, selector){
-        const browser = await puppeteer.launch();
-        // const browser = await puppeteer.launch({executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'});
-        // const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
-        // const browser = await puppeteer.launch({ headless: false });
-        const page = await browser.newPage();
-        page.setDefaultNavigationTimeout(10000);
-        try{
-            await page.goto(url);
-        } catch (err) {
-            console.error(err);
-            return '';
-        }
-
-        // get html by selector
-        let element = await page.$(selector);
-        let html = await (await element.getProperty('innerHTML')).jsonValue();
-        // console.log(data.html);
-        browser.close();
-
-        await timeout(1000);
-        return html;
     },
 
     // get html from url, with axios and cheerio
