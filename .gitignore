@@ -1,0 +1,4 @@
+build/
+node_modules/
+chords.json
+places.sqlite
