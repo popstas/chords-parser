@@ -1,9 +1,9 @@
 const fs = require('fs')
-    , ini = require('ini')
-    , db = require('sqlite')
     , cheerio = require('cheerio')
     , axios = require('axios')
+    , firefox = require('./firefox')
 
+console.log(firefox);
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const parseDelay = 500; // delay after page open
 const userAgent = 'popstas/chords-parser';
@@ -11,50 +11,14 @@ const userAgent = 'popstas/chords-parser';
 const parser = {
     // run parser
     async run() {
-        let placesPath = this.getPlacesPath();
-        // let placesPath = 'places.sqlite';
-        let bookmarks = await this.getChordsBookmarks(placesPath, 'аккорды');
+        let placesPath = firefox.getPlacesPath();
+        let bookmarks = await firefox.getBookmarksDirectory(placesPath, 'аккорды');
         let songs = await this.parseBookmarks(bookmarks);
         this.storeSongs(songs);
     },
 
     log(msg) {
         console.log(msg);
-    },
-
-    // parse profiles.ini, find default profile and return profile's places.sqlite
-    getPlacesPath() {
-        let basePath = process.env.APPDATA + '/Mozilla/Firefox';
-        let f = ini.parse(fs.readFileSync(basePath + '/profiles.ini', 'utf-8'));
-        for (let i = 0; i < 10; i++) {
-            let profile = f['Profile' + i];
-            if (profile.Default == 1) {
-                return (profile.IsRelative == 1 ? basePath + '/' : '') + profile.Path + '/places.sqlite';
-            }
-        }
-        return false;
-    },
-
-    // get bookmarks from chords directory
-    async getChordsBookmarks(placesPath, chordsDirname) {
-        // let sqliteRaw = fs.readFileSync(placesPath);
-        try {
-            await db.open(placesPath);
-        } catch (error) {
-            console.log('error openening database');
-            throw error;
-        }
-
-        const menuId = await db.get("select id from moz_bookmarks where guid='menu________'")
-        const dirId = await db.get("select id from moz_bookmarks where title = ? and parent = ?", chordsDirname, menuId.id);
-
-        const bookmarks = await db.all(`select moz_bookmarks.title, moz_places.url
-        from moz_bookmarks
-        inner join moz_places on moz_places.id = moz_bookmarks.fk
-        where moz_bookmarks.parent = ?
-        order by moz_bookmarks.title`, dirId.id);
-
-        return bookmarks;
     },
 
     // convert bookmarks to array of songs with chords
