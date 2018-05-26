@@ -5,7 +5,8 @@ const fs = require('fs')
     , axios = require('axios')
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
-const parseDelay = 1000; // delay after page open
+const parseDelay = 500; // delay after page open
+const userAgent = 'popstas/chords-parser';
 
 const parser = {
     // run parser
@@ -63,7 +64,7 @@ const parser = {
         this.log('parsing started, bookmarks: ' + bookmarks.length);
         console.time('parse');
         for(let bookmark of bookmarks){
-            console.log(bookmark.title);
+            console.log(`${bookmark.title} - ${bookmark.url}`);
             try{
                 let data = await this.parseBookmark(bookmark);
                 songs.push(data);
@@ -88,8 +89,10 @@ const parser = {
         // get chords from html
         let selector = this.getChordsSelector(bookmark.url);
         if(selector){
-            //data.html = await this.getHtmlByUrlWithSelector(bookmark.url, selector);
-            data.html = await this.getHtmlByUrlWithSelectorCheerio(bookmark.url, selector);
+            data.text = await this.getHtmlByUrlWithSelectorCheerio(bookmark.url, selector);
+            let textLines = data.text.split('\n');
+            console.log(textLines[0]);
+            console.log(textLines[1]);
         }
 
         return data;
@@ -120,7 +123,7 @@ const parser = {
     async getHtmlByUrlWithSelectorCheerio(url, selector){
         let text = '';
         try{
-            let response = await axios.get(url);
+            let response = await axios.get(url, { headers: {'User-Agent': userAgent}});
             const $ = cheerio.load(response.data);
             text = $(selector).text();
         } catch (err) {
