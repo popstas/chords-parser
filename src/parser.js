@@ -3,6 +3,7 @@
 const cheerio = require('cheerio')
     , axios = require('axios')
     , puppeteer = require('puppeteer')
+    , iconv = require('iconv-lite')
 
 const userAgent = 'popstas/chords-parser';
 
@@ -10,6 +11,9 @@ const domainSelectors = {
     'mychords.net': '.w-words__text',
     'hm6.ru': '.w-words__text',
     'amdm.ru': '[itemprop="chordsBlock"]',
+    'orgius.ru': 'pre',
+    'rock-chords.ru': 'pre',
+    'sing-my-song.com': 'pre',
 }
 
 // get selector by url
@@ -40,7 +44,7 @@ exports.parseTitle = (title) => {
         if(matches){
             parsedTitle = {
                 artist: matches[1].trim(),
-                title: matches[2].trim(),
+                title: matches[2].trim().replace(/,$/, ''),
                 chords: '',
             }
         }
@@ -85,11 +89,22 @@ const getTextByUrlWithSelectorPuppeteer = async (url, selector) => {
 const getTextByUrlWithSelectorCheerio = async (url, selector) => {
     let text = '';
     try{
+        let responseType = 'text';
+        if(url.match(/orgius\.ru/)){
+            responseType = 'arraybuffer';
+        }
+
         let response = await axios.get(url, {
+            responseType: responseType,
             headers: {
                 'User-Agent': userAgent
             },
         });
+
+        if(url.match(/orgius\.ru/)){
+            response.data = iconv.decode(response.data, 'win1251');
+        }
+
         const $ = cheerio.load(response.data);
         text = $(selector).text();
     } catch (err) {
