@@ -2,3 +2,6 @@ build/
 node_modules/
 chords.json
 places.sqlite
+TODO.md
+test.js
+song.md.template
