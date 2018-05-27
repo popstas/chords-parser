@@ -3,9 +3,11 @@
 const fs = require('fs')
     , firefox = require('./firefox')
     , parser = require('./parser')
+    , store = require('./store')
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const parseDelay = 500; // delay after page open
+const jsonPath = 'chords.json';
 
 const chordsParser = {
     // run parser
@@ -13,7 +15,8 @@ const chordsParser = {
         let placesPath = firefox.getPlacesPath();
         let bookmarks = await firefox.getBookmarksDirectory(placesPath, 'аккорды');
         let songs = await this.parseBookmarks(bookmarks);
-        this.storeSongs(songs);
+        let stats = store.saveJson(songs, jsonPath);
+        this.log(jsonPath + ' saved, size: ' + (stats.size / 1000) + ' KB');
     },
 
     log(msg) {
@@ -22,7 +25,7 @@ const chordsParser = {
 
     // convert bookmarks to array of songs with chords
     async parseBookmarks(bookmarks) {
-        // bookmarks = bookmarks.slice(0, 100);
+        // bookmarks = bookmarks.slice(0, 10);
         let songs = [];
         this.log('parsing started, bookmarks: ' + bookmarks.length);
         console.time('parse');
@@ -61,18 +64,7 @@ const chordsParser = {
         }
 
         return data;
-    },
-
-    // store songs data to json
-    storeSongs(songs) {
-        fs.writeFileSync('chords.json', JSON.stringify(songs), null, 2);
-        const stats = fs.statSync('chords.json');
-        this.log('chords.json saved, size: ' + (stats.size / 1000) + ' KB');
-        /* fs.mkdir('songs');
-        songs.forEach(song => {
-            let md = render(fs.readFileSync('song.md.template'), { song });
-        }); */
-    },
+    }
 };
 
 chordsParser.run();
