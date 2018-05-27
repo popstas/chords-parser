@@ -12,3 +12,11 @@ exports.saveJson = (songs, path) => {
         let md = render(fs.readFileSync('song.md.template'), { song });
     }); */
 }
+
+exports.loadJson = (path) => {
+    let songs = [];
+    if(fs.existsSync(path)){
+        songs = JSON.parse(fs.readFileSync(path));
+    }
+    return songs;
+}
