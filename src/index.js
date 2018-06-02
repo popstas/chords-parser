@@ -54,6 +54,9 @@ const chordsParser = {
         const song = { title, url };
         if(storedSong){
             song.text = storedSong.text;
+            song.created = storedSong.created || new Date().toJSON();
+        } else {
+            song.created = new Date().toJSON()
         }
 
         song.details = parser.parseTitle(bookmark.title)
