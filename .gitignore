@@ -1,4 +1,5 @@
 build/
+dist/
 node_modules/
 chords.json
 places.sqlite
