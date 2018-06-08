@@ -1,6 +1,6 @@
 {
   "name": "chords-parser",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Parse Firefox bookmarks and generate static site with chords in Markdown",
   "main": "src/index.js",
   "scripts": {
