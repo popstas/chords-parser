@@ -1,5 +1,5 @@
 <a name="0.1.0"></a>
-# 0.1.0 (2018-06-08)
+# [0.1.0](https://github.com/popstas/chords-parser/compare/d19c9b1...v0.1.0) (2018-06-08)
 
 
 ### Bug Fixes

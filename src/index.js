@@ -60,6 +60,7 @@ const chordsParser = {
     }
 
     song.details = parser.parseTitle(bookmark.title);
+    song.tags = bookmark.tags;
 
     // get chords from html
     if (!song.text || forceUpdateTexts) {
