@@ -1,3 +1,13 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/popstas/chords-parser/compare/v0.1.0...v0.2.0) (2018-09-14)
+
+
+### Features
+
+* add tags names from firefox bookmarks ([5f373aa](https://github.com/popstas/chords-parser/commit/5f373aa))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/popstas/chords-parser/compare/d19c9b1...v0.1.0) (2018-06-08)
 
