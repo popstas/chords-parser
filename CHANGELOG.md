@@ -1,3 +1,13 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/popstas/chords-parser/compare/v0.2.0...v0.2.1) (2018-09-14)
+
+
+### Bug Fixes
+
+* pretty print of json ([a4eee81](https://github.com/popstas/chords-parser/commit/a4eee81))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/popstas/chords-parser/compare/v0.1.0...v0.2.0) (2018-09-14)
 
