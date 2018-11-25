@@ -36,7 +36,8 @@ exports.parseTitle = title => {
   let parsedTitle = {
     artist: '',
     title: '',
-    chords: ''
+    chords: '',
+    chords_count: 0
   };
 
   if (title.match(/аккорды/i)) {
@@ -58,6 +59,13 @@ exports.parseTitle = title => {
       };
     }
   }
+
+  // chords_count
+  if(parsedTitle.chords != ''){
+    parsedTitle.chords_count = parsedTitle.chords.split(' ').length;
+    parsedTitle.complexity = parsedTitle.chords_count - 2;
+  }
+
   return parsedTitle;
 };
 

@@ -26,13 +26,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
-    "iconv-lite": "^0.4.23",
+    "iconv-lite": "^0.4.24",
     "ini": "^1.3.5",
-    "puppeteer": "^1.4.0",
-    "sqlite": "^2.9.2"
+    "puppeteer": "^1.10.0",
+    "sqlite": "^2.9.3"
   },
   "devDependencies": {
-    "conventional-changelog-cli": "^2.0.0",
+    "conventional-changelog-cli": "^2.0.11",
     "conventional-github-releaser": "^3.1.0"
   }
 }
