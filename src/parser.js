@@ -13,7 +13,8 @@ const domainSelectors = {
   'amdm.ru': '[itemprop="chordsBlock"]',
   'orgius.ru': 'pre',
   'rock-chords.ru': 'pre',
-  'sing-my-song.com': 'pre'
+  'sing-my-song.com': 'pre',
+  'genius.com': '.lyrics'
 };
 
 // get selector by url
