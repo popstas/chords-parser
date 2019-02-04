@@ -1,4 +1,13 @@
-<a name="0.2.1"></a>
+## [0.2.2](https://github.com/popstas/chords-parser/compare/v0.2.1...v0.2.2) (2019-02-04)
+
+
+### Features
+
+* add genius.com source ([cf0b41d](https://github.com/popstas/chords-parser/commit/cf0b41d))
+* chords_num, complexity ([a73b22a](https://github.com/popstas/chords-parser/commit/a73b22a))
+
+
+
 ## [0.2.1](https://github.com/popstas/chords-parser/compare/v0.2.0...v0.2.1) (2018-09-14)
 
 
@@ -8,7 +17,6 @@
 
 
 
-<a name="0.2.0"></a>
 # [0.2.0](https://github.com/popstas/chords-parser/compare/v0.1.0...v0.2.0) (2018-09-14)
 
 
@@ -18,7 +26,6 @@
 
 
 
-<a name="0.1.0"></a>
 # [0.1.0](https://github.com/popstas/chords-parser/compare/d19c9b1...v0.1.0) (2018-06-08)
 
 
