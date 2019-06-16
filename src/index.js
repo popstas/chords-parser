@@ -74,7 +74,9 @@ const chordsParser = {
       }
     }
 
-    song.text = song.text.replace('Взято с сайта https://mychords.net', '');
+    if (song.text) {
+      song.text = song.text.replace('Взято с сайта https://mychords.net', '');
+    }
 
     console.log('----------');
     return song;

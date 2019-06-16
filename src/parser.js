@@ -72,7 +72,7 @@ exports.parseTitle = title => {
 
 // get text from url, with puppeteer
 const getTextByUrlWithSelectorPuppeteer = async (url, selector) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   // const browser = await puppeteer.launch({executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'});
   // const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
   // const browser = await puppeteer.launch({ headless: false });
