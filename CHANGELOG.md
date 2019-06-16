@@ -1,3 +1,12 @@
+## [0.2.3](https://github.com/popstas/chords-parser/compare/v0.2.2...v0.2.3) (2019-06-16)
+
+
+### Bug Fixes
+
+* remove mychords text ([f1d47e2](https://github.com/popstas/chords-parser/commit/f1d47e2))
+
+
+
 ## [0.2.2](https://github.com/popstas/chords-parser/compare/v0.2.1...v0.2.2) (2019-02-04)
 
 
