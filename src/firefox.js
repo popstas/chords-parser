@@ -60,7 +60,7 @@ exports.getBookmarksDirectory = async (placesPath, dirname) => {
   const pairs = await db.all(
     `select b.parent as tag_id, b.fk as bookmark_id
     from moz_bookmarks as b
-    inner join moz_places as p on p.id = b.parent
+    /*inner join moz_places as p on p.id = b.parent*/
     where b.parent in (${allTags.join(',')})
     and b.fk in (${ids.join(',')})`
   );
