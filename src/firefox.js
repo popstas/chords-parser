@@ -37,7 +37,7 @@ exports.getBookmarksDirectory = async (placesPath, dirname) => {
 
   // get bookmarks title and url
   const bookmarks = await db.all(
-    `select moz_bookmarks.fk as id, moz_bookmarks.title, moz_places.url
+    `select moz_bookmarks.fk as id, moz_bookmarks.title, moz_bookmarks.dateAdded, moz_places.url
     from moz_bookmarks
     inner join moz_places on moz_places.id = moz_bookmarks.fk
     where moz_bookmarks.parent = ?

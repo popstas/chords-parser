@@ -52,11 +52,12 @@ const chordsParser = {
     // build song
     const { title, url } = bookmark;
     const song = { title, url };
+    const bookmarkCreated = new Date(bookmark.dateAdded / 1000).toJSON();
     if (storedSong) {
       song.text = storedSong.text;
-      song.created = storedSong.created || new Date().toJSON();
+      song.created = storedSong.created || bookmarkCreated;
     } else {
-      song.created = new Date().toJSON();
+      song.created = bookmarkCreated;
     }
 
     song.details = parser.parseTitle(bookmark.title);
