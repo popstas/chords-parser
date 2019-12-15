@@ -1,3 +1,12 @@
+## [0.2.5](https://github.com/popstas/chords-parser/compare/v0.2.4...v0.2.5) (2019-12-15)
+
+
+### Bug Fixes
+
+* not all tags taken from firefox bookmarks ([0922419](https://github.com/popstas/chords-parser/commit/0922419))
+
+
+
 ## [0.2.4](https://github.com/popstas/chords-parser/compare/v0.2.3...v0.2.4) (2019-06-16)
 
 
