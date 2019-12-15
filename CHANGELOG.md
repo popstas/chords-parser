@@ -1,3 +1,12 @@
+## [0.2.6](https://github.com/popstas/chords-parser/compare/v0.2.5...v0.2.6) (2019-12-15)
+
+
+### Bug Fixes
+
+* song created date from bookmark dateAdded ([c6c06c4](https://github.com/popstas/chords-parser/commit/c6c06c4))
+
+
+
 ## [0.2.5](https://github.com/popstas/chords-parser/compare/v0.2.4...v0.2.5) (2019-12-15)
 
 
