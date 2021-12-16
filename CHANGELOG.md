@@ -1,3 +1,17 @@
+## [0.2.7](https://github.com/popstas/chords-parser/compare/v0.2.6...v0.2.7) (2021-12-16)
+
+
+### Bug Fixes
+
+* genius.com text extract fix ([6385235](https://github.com/popstas/chords-parser/commit/6385235))
+
+
+### Features
+
+* add some new chords sites ([14bc299](https://github.com/popstas/chords-parser/commit/14bc299))
+
+
+
 ## [0.2.6](https://github.com/popstas/chords-parser/compare/v0.2.5...v0.2.6) (2019-12-15)
 
 
