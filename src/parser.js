@@ -15,7 +15,7 @@ const domainSelectors = {
   'rock-chords.ru': 'pre',
   'rush-sound.ru': 'pre',
   'sing-my-song.com': 'pre',
-  'genius.com': '.lyrics',
+  'genius.com': '#lyrics-root',
   'akkordbard.ru': 'pre',
   'lalatracker.com': 'pre',
 };
@@ -118,7 +118,15 @@ const getTextByUrlWithSelectorCheerio = async (url, selector) => {
     }
 
     const $ = cheerio.load(response.data);
-    text = $(selector).text();
+
+    let html = $(selector).html();
+    if (html.match(/<br>/)) {
+      html = html.replace(/<br><\/div>/g, '\n\n</div>'); // genius.com, конец блока
+      html = html.replace(/<br>/g, '\n');
+      text = $(html).text();
+    } else {
+      text = $(selector).text();
+    }
   } catch (err) {
     console.error(err);
   }
