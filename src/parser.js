@@ -18,6 +18,7 @@ const domainSelectors = {
   'genius.com': '#lyrics-root',
   'akkordbard.ru': 'pre',
   'lalatracker.com': 'pre',
+  'stihi.ru': '.maintext .text',
 };
 
 // get selector by url
@@ -135,7 +136,7 @@ const getTextByUrlWithSelectorCheerio = async (url, selector) => {
 
 exports.getTextByUrl = async (url, selector) => {
   let text = '';
-  if (url.match(/mychords\.net/)) {
+  if (url.match(/mychords\.net/) || url.match(/stihi\.ru/)) {
     text = await getTextByUrlWithSelectorPuppeteer(url, selector);
   } else {
     text = await getTextByUrlWithSelectorCheerio(url, selector);
