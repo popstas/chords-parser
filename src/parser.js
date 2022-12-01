@@ -60,6 +60,11 @@ const platforms = [
     selector: '[itemprop="text"]',
     puppeteer: true,
   },
+  {
+    domain: 'teksti-pesenok.pro',
+    selector: '#text',
+    // puppeteer: true,
+  },
 ];
 
 // get selector by url
@@ -169,7 +174,7 @@ const getTextByUrlWithSelectorCheerio = async (url, selector) => {
 };
 
 exports.getTextByUrl = async (url) => {
-  const platform = getChordsPlatform(bookmark.url);
+  const platform = getChordsPlatform(url);
   const getText = platform.puppeteer ? getTextByUrlWithSelectorPuppeteer : getTextByUrlWithSelectorCheerio;
   const text = await getText(url, platform.selector);
   return text;
