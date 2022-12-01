@@ -65,14 +65,11 @@ const chordsParser = {
 
     // get chords from html
     if (!song.text || forceUpdateTexts) {
-      let selector = parser.getChordsSelector(bookmark.url);
-      if (selector) {
-        song.text = await parser.getTextByUrl(bookmark.url, selector);
-        let textLines = song.text.split('\n');
-        console.log(textLines[0]);
-        console.log(textLines[1]);
-        await timeout(1000);
-      }
+      song.text = await parser.getTextByUrl(bookmark.url);
+      let textLines = song.text.split('\n');
+      console.log(textLines[0]);
+      console.log(textLines[1]);
+      await timeout(1000);
     }
 
     if (song.text) {

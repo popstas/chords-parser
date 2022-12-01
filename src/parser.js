@@ -7,33 +7,67 @@ const cheerio = require('cheerio'),
 
 const userAgent = 'popstas/chords-parser';
 
-const domainSelectors = {
-  'mychords.net': '.w-words__text',
-  'hm6.ru': '.w-words__text',
-  'amdm.ru': '[itemprop="chordsBlock"]',
-  'orgius.ru': 'pre',
-  'rock-chords.ru': 'pre',
-  'rush-sound.ru': 'pre',
-  'sing-my-song.com': 'pre',
-  'genius.com': '#lyrics-root',
-  'akkordbard.ru': 'pre',
-  'lalatracker.com': 'pre',
-  'stihi.ru': '.maintext .text',
-};
+const platforms = [
+  {
+    domain: 'mychords.net',
+    selector: '.w-words__text',
+    puppeteer: true,
+  },
+  {
+    domain: 'hm6.ru',
+    selector: '.w-words__text',
+    puppeteer: true,
+  },
+  {
+    domain: 'amdm.ru',
+    selector: '[itemprop="chordsBlock"]',
+  },
+  {
+    domain: 'orgius.ru',
+    selector: 'pre',
+  },
+  {
+    domain: 'rock-chords.ru',
+    selector: 'pre',
+  },
+  {
+    domain: 'rush-sound.ru',
+    selector: 'pre',
+  },
+  {
+    domain: 'sing-my-song.com',
+    selector: 'pre',
+  },
+  {
+    domain: 'genius.com',
+    selector: '#lyrics-root',
+  },
+  {
+    domain: 'akkordbard.ru',
+    selector: 'pre',
+  },
+  {
+    domain: 'lalatracker.com',
+    selector: 'pre',
+  },
+  {
+    domain: 'stihi.ru',
+    selector: '.maintext .text',
+    puppeteer: true,
+  },
+  {
+    domain: 'text-pesni.com',
+    selector: '[itemprop="text"]',
+    puppeteer: true,
+  },
+];
 
 // get selector by url
-exports.getChordsSelector = url => {
-  let selector = false;
-
-  for (let domain in domainSelectors) {
-    let re = new RegExp(domain.replace('.', '\\.'));
-    if (url.match(re)) {
-      selector = domainSelectors[domain];
-      break;
-    }
+const getChordsPlatform = url => {
+  for (let platform of platforms) {
+    let re = new RegExp(platform.domain.replace('.', '\\.'));
+    if (url.match(re)) return platform;
   }
-
-  return selector;
 };
 
 // extract artist, title and chords from title
@@ -134,12 +168,9 @@ const getTextByUrlWithSelectorCheerio = async (url, selector) => {
   return text;
 };
 
-exports.getTextByUrl = async (url, selector) => {
-  let text = '';
-  if (url.match(/mychords\.net/) || url.match(/stihi\.ru/)) {
-    text = await getTextByUrlWithSelectorPuppeteer(url, selector);
-  } else {
-    text = await getTextByUrlWithSelectorCheerio(url, selector);
-  }
+exports.getTextByUrl = async (url) => {
+  const platform = getChordsPlatform(bookmark.url);
+  const getText = platform.puppeteer ? getTextByUrlWithSelectorPuppeteer : getTextByUrlWithSelectorCheerio;
+  const text = await getText(url, platform.selector);
   return text;
 };
