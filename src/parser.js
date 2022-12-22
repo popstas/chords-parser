@@ -65,6 +65,12 @@ const platforms = [
     selector: '#text',
     // puppeteer: true,
   },
+  {
+    domain: 'pesni.guru',
+    selector: '.songtext',
+    removeSelector: 'ul, div', // TODO:
+    puppeteer: true,
+  },
 ];
 
 // get selector by url
@@ -114,7 +120,8 @@ exports.parseTitle = title => {
 };
 
 // get text from url, with puppeteer
-const getTextByUrlWithSelectorPuppeteer = async (url, selector) => {
+const getTextByUrlWithSelectorPuppeteer = async (url, platform) => {
+  const selector = platform.selector;
   const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   // const browser = await puppeteer.launch({executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'});
   // const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
@@ -138,7 +145,8 @@ const getTextByUrlWithSelectorPuppeteer = async (url, selector) => {
 };
 
 // get text from url, with axios and cheerio
-const getTextByUrlWithSelectorCheerio = async (url, selector) => {
+const getTextByUrlWithSelectorCheerio = async (url, platform) => {
+  const selector = platform.selector;
   let text = '';
   try {
     let responseType = 'text';
@@ -159,7 +167,12 @@ const getTextByUrlWithSelectorCheerio = async (url, selector) => {
 
     const $ = cheerio.load(response.data);
 
-    let html = $(selector).html();
+    const elem = $(selector);
+    // TODO: removeSelector impl.
+    if (platform.removeSelector) {
+      elem.find(platform.removeSelector).remove();
+    }
+    let html = elem.html();
     if (html.match(/<br>/)) {
       html = html.replace(/<br><\/div>/g, '\n\n</div>'); // genius.com, конец блока
       html = html.replace(/<br>/g, '\n');
@@ -175,7 +188,8 @@ const getTextByUrlWithSelectorCheerio = async (url, selector) => {
 
 exports.getTextByUrl = async (url) => {
   const platform = getChordsPlatform(url);
+  if (!platform) return '';
   const getText = platform.puppeteer ? getTextByUrlWithSelectorPuppeteer : getTextByUrlWithSelectorCheerio;
-  const text = await getText(url, platform.selector);
+  const text = await getText(url, platform);
   return text;
 };
