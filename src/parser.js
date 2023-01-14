@@ -51,6 +51,10 @@ const platforms = [
     selector: 'pre',
   },
   {
+    domain: 'music.yandex.ru',
+    selector: 'pre',
+  },
+  {
     domain: 'stihi.ru',
     selector: '.maintext .text',
     puppeteer: true,
