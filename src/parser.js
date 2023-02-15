@@ -51,6 +51,10 @@ const platforms = [
     selector: 'pre',
   },
   {
+    domain: '5lad.ru',
+    selector: 'pre',
+  },
+  {
     domain: 'music.yandex.ru',
     selector: 'pre',
   },
