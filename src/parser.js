@@ -79,6 +79,19 @@ const platforms = [
     removeSelector: 'ul, div', // TODO:
     puppeteer: true,
   },
+  {
+    domain: 'musixmatch.com',
+    selector: '.lyrics__content__ok',
+    // puppeteer: true,
+  },
+  {
+    domain: '100atm.ru',
+    selector: '.detail_text',
+  },
+  {
+    domain: 'pesni.net',
+    selector: '.song-block-text',
+  },
 ];
 
 // get selector by url

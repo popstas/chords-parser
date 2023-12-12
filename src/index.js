@@ -10,6 +10,8 @@ const parseDelay = 500; // delay after page open
 const jsonPath = 'chords.json';
 const forceUpdateTexts = false;
 
+const newSongs = [];
+
 const chordsParser = {
   // run parser
   async run() {
@@ -42,6 +44,11 @@ const chordsParser = {
         console.error(err);
       }
     }
+
+    if (newSongs.length > 0) {
+      console.log(`\n\nNew songs, ${newSongs.length}:\n${newSongs.map(s => s.title).join('\n')}\n`);
+    }
+
     this.log('parsing finished');
     console.timeEnd('parse');
     return songs;
@@ -56,12 +63,28 @@ const chordsParser = {
     if (storedSong) {
       song.text = storedSong.text;
       song.created = storedSong.created || bookmarkCreated;
+      song.beat = storedSong.beat || { name: "", bpm: 0 };
     } else {
       song.created = bookmarkCreated;
+      song.beat = { name: "", bpm: 0 };
     }
 
     song.details = parser.parseTitle(bookmark.title);
     song.tags = bookmark.tags;
+
+    // parse beat name and bpm from tags
+    const beatTag = song.tags.find(t => t.startsWith('beat:'));
+    if (beatTag) {
+      const beatName = beatTag.split(':')[1].trim();
+      song.beat.name = beatName;
+      song.tags = song.tags.filter(t => t != beatTag);
+    }
+    const bpmTag = song.tags.find(t => t.startsWith('bpm:'));
+    if (bpmTag) {
+      const bpm = bpmTag.split(':')[1].trim();
+      song.beat.bpm = parseInt(bpm);
+      song.tags = song.tags.filter(t => t != bpmTag);
+    }
 
     // get chords from html
     if (!song.text || forceUpdateTexts) {
@@ -70,6 +93,10 @@ const chordsParser = {
       console.log(textLines[0]);
       console.log(textLines[1]);
       await timeout(1000);
+
+      if (song.text) {
+        newSongs.push(song);
+      }
     }
 
     if (song.text) {
