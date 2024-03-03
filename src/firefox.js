@@ -4,6 +4,7 @@ const fs = require('fs'),
   ini = require('ini'),
   db = require('sqlite');
 
+
 // parse profiles.ini, find default profile and return profile's places.sqlite
 exports.getPlacesPath = () => {
   let basePath = process.env.APPDATA + '/Mozilla/Firefox';
@@ -11,7 +12,8 @@ exports.getPlacesPath = () => {
   for (let i = 0; i < 10; i++) {
     let profile = f['Profile' + i];
     if (profile.Default == 1) {
-      return (profile.IsRelative == 1 ? basePath + '/' : '') + profile.Path + '/places.sqlite';
+      const p = (profile.IsRelative == 1 ? basePath + '/' : '') + profile.Path + '/places.sqlite';
+      return fs.realpathSync(p);
     }
   }
   return false;

@@ -3,7 +3,16 @@
 const cheerio = require('cheerio'),
   axios = require('axios'),
   puppeteer = require('puppeteer'),
-  iconv = require('iconv-lite');
+  iconv = require('iconv-lite'),
+  fs = require('fs'),
+  {HttpsProxyAgent} = require('https-proxy-agent'),
+  fetch = require('node-fetch');
+ 
+// require config if ../config is exists
+let config = {};
+if (fs.existsSync('config.js')) {
+  config = require('../config');
+}
 
 const userAgent = 'popstas/chords-parser';
 
@@ -20,6 +29,10 @@ const platforms = [
   },
   {
     domain: 'amdm.ru',
+    selector: '[itemprop="chordsBlock"]',
+  },
+  {
+    domain: 'amdm.in',
     selector: '[itemprop="chordsBlock"]',
   },
   {
@@ -175,18 +188,38 @@ const getTextByUrlWithSelectorCheerio = async (url, platform) => {
       responseType = 'arraybuffer';
     }
 
-    let response = await axios.get(url, {
+    let proxiedFetch = fetch;
+    if (config.proxy) {
+      proxiedFetch = async (input, init) => {
+        const agent = new HttpsProxyAgent(`${config.proxy}`);
+        const requestOptions = {
+          ...init,
+          agent,
+        };
+        return fetch(input, requestOptions);
+      };
+    }
+
+    let response = await proxiedFetch(url, {
+      // responseType: responseType,
+      headers: {
+        'User-Agent': userAgent
+      },
+    });
+
+    /* let response = await axios.get(url, {
       responseType: responseType,
       headers: {
         'User-Agent': userAgent
-      }
-    });
+      },
+    }); */
 
+    const htmlRaw = await response.text();
     if (url.match(/orgius\.ru/)) {
-      response.data = iconv.decode(response.data, 'win1251');
+      response.data = iconv.decode(htmlRaw, 'win1251');
     }
 
-    const $ = cheerio.load(response.data);
+    const $ = cheerio.load(htmlRaw);
 
     const elem = $(selector);
     // TODO: removeSelector impl.
