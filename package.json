@@ -7,6 +7,7 @@
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "bash scripts/deploy.sh",
+    "parse-dev": "bash scripts/parse-dev.sh",
     "parse-local": "bash scripts/parse-local.sh",
     "parse-and-deploy": "npm start && npm run deploy",
     "version": "npm run changelog && git add CHANGELOG.md",

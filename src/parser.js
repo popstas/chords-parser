@@ -163,7 +163,7 @@ const getTextByUrlWithSelectorPuppeteer = async (url, platform) => {
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(10000);
   try {
-    await page.goto(url);
+    await page.goto(url, {waitUntil: 'load', timeout: 10000});
   } catch (err) {
     console.error(err);
     return '';
@@ -234,6 +234,15 @@ const getTextByUrlWithSelectorCheerio = async (url, platform) => {
     } else {
       text = $(selector).text();
     }
+
+    // Add replacements for genius.com
+    if (platform.domain === 'genius.com') {
+      text = text.replace(/.*Lyrics\[.*?\]/s, ''); // Remove text from the beginning to "Lyrics[.*]"
+      text = text.replace(/You might also like/g, ''); // Replace "You might also like" with ""
+      text = text.replace(/\d+Embed$/, ''); // Remove "[0-9]+Embed" from the end
+    }
+
+    text = text.trim();
   } catch (err) {
     console.error(err);
   }
